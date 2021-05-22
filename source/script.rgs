@@ -1,0 +1,7 @@
+print 'Insert your name: ';
+input name 60;
+
+print 'Ola ';
+print name;
+
+exit;
