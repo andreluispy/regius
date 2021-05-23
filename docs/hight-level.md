@@ -93,7 +93,7 @@ end hello
  example:
  ```
 label hello
-print 'hello world', 0xA;
+print 'hello world', /n;
 end hello
 
 call hello;
@@ -122,5 +122,5 @@ if n1 > n2 greater;
  ```
 
 
-# Learn with Comands
+# Learn with Examples
  Not Avaible
