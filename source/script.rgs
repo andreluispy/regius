@@ -1,14 +1,6 @@
-label maior
-print 'é maior', /n;
-end maior
+label hello
+print 'hello world', 0xA;
+end hello
 
-label menor
-print 'é menor', /n;
-end menor
-
-var dd n1 = 50;
-var dd n2 = 25;
-
-if n1 > n2 maior;
-if n1 < n2 menor;
+call hello;
 exit;
