@@ -51,11 +51,11 @@ _start:
 
  View Hight-Level Syntax Docs:
  
- [unavailable]()
+ [unavailable](README.md)
 
  View Low-Level Syntax Docs:
 
- [unavailable]()
+ [Click Here](docs/hight-level.md)
 
 # Legal
 
