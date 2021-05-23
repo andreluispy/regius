@@ -1,7 +1,14 @@
-print 'Insert your name: ';
-input name 60;
+label maior
+print 'é maior', /n;
+end maior
 
-print 'Ola ';
-print name;
+label menor
+print 'é menor', /n;
+end menor
 
+var dd n1 = 50;
+var dd n2 = 25;
+
+if n1 > n2 maior;
+if n1 < n2 menor;
 exit;

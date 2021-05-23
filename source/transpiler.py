@@ -4,13 +4,16 @@ line = ''
 actual_data = 0
 actual_mode = 1
 actual_var = ''
+actual_skip = 0
 data = {}
 bss = {}
 label_start = ['section .text', 'global _start', '_start:']
 lenght = {}
+labels = {}
+comps = {'>':'jg', '<':'jl', '==':'je'}
 
 def transpiler():
-    global line, data, label_start, actual_data, actual_mode, actual_var, lenght
+    global script, line, data, label_start, labels, actual_data, actual_mode, actual_var, actual_skip, lenght, comps
 
     modo = 0
     split = line.split()
@@ -63,7 +66,7 @@ def transpiler():
                         label_start.append(f'    mov ecx, {"data"+str(actual_data)}')
                     
                         # control data automation
-                        data['data'+str(actual_data)] = value
+                        data['data'+str(actual_data)] = f'db {value}'
                         data['len'+str(actual_data)] = 'equ $ - '+'data'+str(actual_data)
 
                         # create edx
@@ -75,10 +78,60 @@ def transpiler():
                 else: # if data is a var
                     label_start.append(f'    mov ecx, {value}')
                     label_start.append(f'    mov edx, {lenght[value]}')
+    
+    elif split[0] == 'label':
+        label_name = split[1] # label name
+
+        # get label code and update script code
+        arq = script[script.index(line)+1:script.index('end '+label_name)]
+        # script.index(line)+1:script.index('end '+label_name)
+        startl = script.index(line)
+        endl = script.index('end '+label_name)
+        for _lline in range(startl, endl):
+            script[_lline] = ''
+
+        labels[label_name] = arq # add label to labels(dict)
+
     elif split[0] == 'call': # call functions
         # call kernel(int 0x80)
         if split[1] == 'kernell;':
             label_start.append(f'    int 0x80\n')
+        
+        # call functions
+        elif (split[1])[0:-1] in labels.keys():
+            label_start.append(f'    call {(split[1])[0:-1]}')
+
+    # vars
+    elif split[0] == 'var':
+        vtype = split[1]
+        vname = split[2]
+        value = line[line.find('=')+2:-1]
+        data[vname] = f'{vtype} {value}'
+    
+    # if
+    elif split[0] == 'if':
+        v1, v2 = split[1], split[3]
+        cmptype = split[2]
+        cmpfunction = (split[4])[0:-1]
+
+        # dword
+        label_start.append(f'    mov eax, DWORD[{v1}]')
+        label_start.append(f'    mov ebx, DWORD[{v2}]')
+        label_start.append(f'    cmp eax, ebx')
+
+        if cmptype == '==':
+            label_start.append(f'    jne skip{actual_skip}')
+        elif cmptype == '!=':
+            label_start.append(f'    je skip{actual_skip}')
+        else:
+            for k, v in comps.items():
+                if k != cmptype:
+                    label_start.append(f'    {v} skip{actual_skip}')
+        
+        label_start.append(f'    call {cmpfunction}\n')
+        label_start.append(f'skip{actual_skip}:')
+        actual_skip += 1
+
     # hight level syntax
     elif split[0] == 'pause;': # pause
         line = '$m = 3;'
@@ -124,25 +177,49 @@ def transpiler():
 
 if __name__ == '__main__':
     # interpreter
-    for _line in open('script.rgs', 'r', encoding='utf-8'):
-        line = _line.replace('\n', '')
-        
-        if line.isspace() or line == '\n' or line == '':
-            pass
-        else:
-            transpiler()
+    script = open('script.rgs', 'r', encoding='utf-8').readlines()
+    for _line in script:
+        script[script.index(_line)] = _line.replace('\n', '')
+
+    try:
+        for indice in range(0, len(script)):
+            line = script[indice]
+            if line.isspace() or line == '\n' or line == '':
+                pass
+            else:
+                transpiler()
+    except IndexError:
+        pass
 
     # write file
     export = open('script.asm', 'w', encoding='utf-8')
 
+    # write section .text
+    for _line in label_start:
+        export.write(_line+'\n')
+    
+    for k, v in labels.items():
+        export.write(f'{k}:\n')
+        label_start = []
+
+        for i in v:
+            line = i
+            if line.isspace() or line == '\n' or line == '':
+                pass
+            else:
+                transpiler()
+
+        # write label code
+        for _line in label_start:
+            export.write(f'{_line}\n')
+        
+        export.write(f'    ret\n') # return to main code
+
     # write section .data
-    export.write('section .data\n')
+    export.write('\nsection .data\n')
     for k, v in data.items():
-        if k[0:4] == 'data':
-            v = v.replace('/n', '0xA')
-            export.write(f'    {k} db {v}'+'\n')
-        elif k[0:3] == 'len':
-            export.write(f'    {k} {v}'+'\n')
+        v = v.replace('/n', '0xA')
+        export.write(f'    {k} {v}'+'\n')
     export.write('\n')
 
     # write section .bss
@@ -151,10 +228,6 @@ if __name__ == '__main__':
         #    name resb 1
         export.write('    '+v+' resb 1\n')
     export.write('\n')
-
-    # write section .text
-    for _line in label_start:
-        export.write(_line+'\n')
     
     export.close()
 
