@@ -57,18 +57,18 @@ exit;
  Use to create vars
 
  args:
- - var type
+ - var size
  - var name
  - var value
 
- Var types:
+ Var sizes:
  - DB = Define Byte -> 1 byte
  - DW = Define Word -> 2 bytes
  - DD = Define Doubleword -> 4 bytes
  - DQ = Define Quadword -> 8 bytes
  - DT = Define Ten -> 10 bytes
 
- If your var bytes value is greater var type assembly add more bytes to your variable
+ If your var bytes value is greater var size assembly add more bytes to your variable
 
  example:
  ```
