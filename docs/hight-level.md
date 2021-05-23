@@ -10,7 +10,7 @@
 | var | create new var in asm section .data | var type, var name, var value | var dd name = 'Andre'; |
 | if | compare values | value1, compare type, value2, function to call | if n1 > n2 greater; |
 | label | start a label block | label name | label hello_world |
-| end | end a label block  | NONE | end hello_world |
+| end | end a label block  | label name | end hello_world |
 
 # Learn Comands
 ## exit
@@ -34,7 +34,7 @@ exit;
  ```
 
  Use special args:
- /n - Use to make a new line
+ - /n - Use to make a new line
 
 ## input
  Use to get a value from user
@@ -67,6 +67,8 @@ exit;
  - DD = Define Doubleword -> 4 bytes
  - DQ = Define Quadword -> 8 bytes
  - DT = Define Ten -> 10 bytes
+
+ If your var bytes value is greater var type assembly add more bytes to your variable
 
  example:
  ```
