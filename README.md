@@ -49,11 +49,11 @@ _start:
 
 # Docs
 
- View Hight-Level Syntax Docs:
+ View Low-Level Syntax Docs:
  
  [unavailable](README.md)
 
- View Low-Level Syntax Docs:
+ View Hight-Level Syntax Docs:
 
  [Click Here](docs/hight-level.md)
 
