@@ -10,14 +10,15 @@
  Try in hight level syntax:
 
  ```
-print 'Hello World', /n;
-exit;
+print 'Hello World', /n
+exit
  ```
 
  Try in low level syntax:
  
  ```
 $m = 4;
+$n = 1;
 $v = 'Hello World', /n;
 call kernell;
 
@@ -26,7 +27,7 @@ $v = 0;
 call kernell;
  ```
 
- This in assembly x86 code:
+This in assembly x86 code:
 
  ```
 section .data
