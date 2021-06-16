@@ -1,0 +1,4 @@
+include asmlib.inc
+
+call hello
+exit

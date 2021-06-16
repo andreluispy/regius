@@ -1,6 +1,0 @@
-label hello
-print 'hello world', 0xA;
-end hello
-
-call hello;
-exit;

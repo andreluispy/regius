@@ -1,0 +1,5 @@
+label hello
+
+print 'Hello Luiz', /n
+
+end hello

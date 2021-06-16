@@ -4,20 +4,36 @@
 
 | COMAND | use | args | examples |
 |---|---|---|---|
-| exit | exit | NONE | exit; |
+| // | comment line | none | // a comment! |
+| exit | exit | return value | exit; |
 | print | write in console | Text or Var | print 'Hello World'; |
 | input | get a input from user | var, var_bytes | input name 60; |
 | var | create new var in asm section .data | var type, var name, var value | var dd name = 'Andre'; |
 | if | compare values | value1, compare type, value2, function to call | if n1 > n2 greater; |
 | label | start a label block | label name | label hello_world |
 | end | end a label block  | label name | end hello_world |
+| import | import regius libs | script lib | import regiuslib.rgs |
+| include | import asm libs | script lib | include asmlib.inc |
 
 # Learn Comands
+
+## comments
+ Use `//` to make comments in languagem, example:
+
+ ```
+print "hello world", /n // show hello world and use /n to break a line
+ ```
+
 ## exit
  Use to exit from program:
  
  ```
-exit;
+exit
+ ```
+ 
+ Using return code:
+ ```
+exit 0
  ```
 
 ## print
@@ -29,8 +45,8 @@ exit;
  example:
 
  ```
-print 'Hello World';
-exit;
+print 'Hello World'
+exit
  ```
 
  Use special args:
@@ -45,14 +61,12 @@ exit;
 
  example:
  ```
- input name 100;
+ input name 100
 
- print name;
- exit;
+ print name
+ exit
  ```
  
-
-
 ## var
  Use to create vars
 
@@ -72,10 +86,10 @@ exit;
 
  example:
  ```
-var db name = 'Hello World', /n;
+var db name = 'Hello World', /n
 
-print name;
-exit;
+print name
+exit
  ```
 
 ## Labels(functions)
@@ -84,7 +98,9 @@ exit;
  Define label block using the syntax:
  ```
 label hello
-# label_code
+
+// label code
+
 end hello
  ```
 
@@ -93,11 +109,11 @@ end hello
  example:
  ```
 label hello
-print 'hello world', /n;
+print 'hello world', /n
 end hello
 
-call hello;
-exit;
+call hello
+exit
  ```
 
 ## if
@@ -112,15 +128,62 @@ exit;
  examples:
  ```
 label greater
-print 'n1 is greater!', /n;
+print 'n1 is greater!', /n
 end greater
 
-var dd n1 = 55;
-var dd n2 = 20;
+var dd n1 = 55
+var dd n2 = 20
 
-if n1 > n2 greater;
+if n1 > n2 greater
  ```
 
+## import
+ Make and use regius lib!
+
+ in `main.rgs`:
+ ```
+import regiuslib.rgs
+
+call hello
+exit
+ ```
+
+ in `regiuslib.rgs`:
+ ```
+label hello
+
+print "hello world", /n
+
+end hello
+ ```
+
+## include
+ Make and use libs writed in assembly!
+
+ in `main.rgs`:
+ ```
+include asmlib.inc
+
+call hello
+exit
+ ```
+
+ in `asmlib.inc`:
+ ```
+section .text
+hello:
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, msg
+    mov edx, len
+    int 0x80
+
+    ret
+
+section .data
+    msg db 'Hello World', 0xA
+    len equ $ - msg
+ ```
 
 # Learn with Examples
  Not Avaible
