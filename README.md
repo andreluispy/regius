@@ -20,22 +20,18 @@ int main(){
 }
  ```
 
- All is compiled using CGG or MingW
+ All is compiled using GCC or MingW
 
 # Docs
 
- View Startup Docs:
-
- [Click Here](docs/startup.md)
+ View Startup Docs: [Click Here](docs/startup.md)
 
  <!-- 
  View STD Lib's Docs:
  
  [Click Here](docs/hight-level.md)
 
- View Lib Development Docs:
- 
- [Click Here](docs/hight-level.md)
+ View Lib Development Docs: [Click Here](docs/hight-level.md)
  -->
 
 # Legal

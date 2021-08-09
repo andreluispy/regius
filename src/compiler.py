@@ -57,14 +57,18 @@ class compiler:
                 else:
                     self.actual_token.type = STRING
                     self.in_string = True
-            elif self.c.isalnum() or self.c in ["\\", ":", "%"]:
+            elif self.c.isalnum() or self.c in ["\\", ":", "%", ","]:
                 if self.in_string: # se está em uma string
                     self.actual_token.value = self.actual_token.value + self.c
                 else:
-                    self.actual_token.type = IDENTIFY
-                    self.actual_token.value = self.actual_token.value + self.c
+                    if self.c in [" ", ';', ","]:
+                        self.tokens.append(self.actual_token)
+                        self.actual_token = token(NULL, '')
+                    else:
+                        self.actual_token.type = IDENTIFY
+                        self.actual_token.value = self.actual_token.value + self.c
                     
-                    if self.line[self.i + 1] in [" ", ';', ","]: # se o proximo caractere é um espaço então acabou a função
+                    if self.line[self.i + 1] in [" ", ';', ","]:
                         self.tokens.append(self.actual_token)
                         self.actual_token = token(NULL, '')
 
@@ -78,7 +82,7 @@ class compiler:
             self.i += 1
 
         #for _token in self.tokens:
-        #    print(_token.type, _token.value)
+            #print(_token.type, _token.value)
 
         # Note: token.type; token.value; self.ccode
         # Code generate
@@ -88,18 +92,19 @@ class compiler:
             if args != []:
                 for _line in (self.function[self.tokens[0].value])["code"]:
                     for arg in args:
-                        '''
-                            sArgs = [self.tokens[args.index(arg)+1].value]
+                        if arg.startswith('*'):
+                            sArgs = ""
                             for tokenArg in self.tokens[args.index(arg)+2:]:
-                                sArgs = f"{sArgs},{tokenArg.value}"
-                            _line = _line.replace("${"+arg+"}$", sArgs)
-                        '''
-                        if arg.startswith('**'):
-                            sArgs = self.tokens[args.index(arg)+1].value
-                            for tokenArg in self.tokens[args.index(arg)+2:]:
-                                sArgs = f"{sArgs},{tokenArg.value}"
-                            _line = _line.replace("${"+arg[2:]+"}$", sArgs)
-                        elif arg[0] == '*':
+                                if tokenArg.type == NULL:
+                                    pass
+                                else:
+                                    if tokenArg.type == STRING:
+                                        sArgs = f'{sArgs},"{tokenArg.value}"'
+                                    else:
+                                        sArgs = f"{sArgs},{tokenArg.value}"
+                            sArgs = sArgs[1:]
+                            _line = _line.replace("${"+arg[1:]+"}$", sArgs)
+                        elif arg.startswith('...'):
                             mArgs = "{"
                             mArgs = f"{mArgs}{self.tokens[args.index(arg)+2].value}"
                             for tokenArg in self.tokens[args.index(arg)+3:]:

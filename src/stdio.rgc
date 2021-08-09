@@ -1,27 +1,16 @@
 <stdio.h>
 
-label print str_01 begin
-printf("${str_01}$");
+label print str begin
+printf("${str}$");
 end
 
-label printf str **argv begin
-printf("${str}$", ${argv}$);
+label printf format_str *vars begin
+printf("${format_str}$", ${vars}$);
 end
 
-label input str_01 *vars *argv begin
-printf("${str_01}$");
-scanf("", ${argv}$);
+label input format_str *vars begin
+scanf("${format_str}$", ${vars}$);
 end
-
-
-
-
-
-
-
-
-
-
 
 
 
