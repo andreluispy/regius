@@ -1,0 +1,43 @@
+<stdio.h>
+
+label print str_01 begin
+printf("${str_01}$");
+end
+
+label printf str **argv begin
+printf("${str}$", ${argv}$);
+end
+
+label input str_01 *vars *argv begin
+printf("${str_01}$");
+scanf("", ${argv}$);
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+label printvar *argv begin
+
+char* strings[] = ${argv}$; 
+for (int i=0; i < (sizeof(strings)/sizeof(strings[0])); i++){
+    char* to_print = strings[i];
+    printf("%s", to_print);
+}
+
+end

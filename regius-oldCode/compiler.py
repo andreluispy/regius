@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ######################################################################
-#                Regius Transpiler for Asm x86                       #
+#             Regius Transpiler for Linux Asm x86                    #
 ######################################################################
 #                             To Do:                                 #
 #                                                                    #
@@ -10,7 +10,8 @@
 #                                                                    #
 ######################################################################
 
-import os, sys
+from os import system, remove
+from sys import argv
 
 line = ''
 actual_data = 0
@@ -280,7 +281,7 @@ def transpiler():
 
 if __name__ == '__main__':
     # interpreter
-    args = sys.argv
+    args = argv
     file = args[1]
     file_name = file[0:file.rfind(".")]
     script = open(file, 'r', encoding='utf-8').readlines()
@@ -333,10 +334,9 @@ if __name__ == '__main__':
         export.write(f'    {k} {v}\n')
     
     export.close()
-
     # local test
     print('Testing:\n')
-    os.system(f'nasm -f elf64 {file_name}.asm')
-    os.system(f'ld -s -o {file_name} {file_name}.o')
-    os.remove(f'./{file_name}.o')
-    os.system(f'./{file_name}')
+    system(f'nasm -f elf64 {file_name}.asm')
+    system(f'ld -s -o {file_name} {file_name}.o')
+    remove(f'./{file_name}.o')
+    system(f'./{file_name}')

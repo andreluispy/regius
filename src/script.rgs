@@ -1,0 +1,6 @@
+import stdio;
+
+var name = "Andre Luis";
+var hello = "Hello";
+
+printf("%s, %s\n", hello, name);

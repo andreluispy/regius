@@ -6,6 +6,11 @@
  
  All syntax is possible to use in mix!
 
+# Compare
+ Hello World:
+ - c: 17kb
+ - regius: 9kb
+
 # Hello World
  Try in hight level syntax:
 
