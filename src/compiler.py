@@ -105,13 +105,17 @@ class compiler:
                             sArgs = sArgs[1:]
                             _line = _line.replace("${"+arg[1:]+"}$", sArgs)
                         elif arg.startswith('...'):
-                            mArgs = "{"
-                            mArgs = f"{mArgs}{self.tokens[args.index(arg)+2].value}"
-                            for tokenArg in self.tokens[args.index(arg)+3:]:
-                                mArgs = f"{mArgs},{tokenArg.value}"
+                            mArgs = ""
+                            for tokenArg in self.tokens[args.index(arg)+2:]:
+                                if tokenArg.type == NULL:
+                                    pass
+                                else:
+                                    mArgs = f"{mArgs},{tokenArg.value}"
                             
-                            mArgs = mArgs+"}"
-                            _line = _line.replace("${"+arg[1:]+"}$", str(mArgs))
+                            mArgs = mArgs[1:]+"}"
+                            mArgs = "{"+mArgs
+                            print(mArgs)
+                            _line = _line.replace("${"+arg[3:]+"}$", mArgs)
                         else:
                             _line = _line.replace("${"+arg+"}$", self.tokens[args.index(arg)+1].value)
                     

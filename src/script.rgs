@@ -3,5 +3,6 @@ import stdio;
 var hello = "Hello, ";
 var name = "0000000000000";
 
+print("Insert your name: ");
 input("%s", name);
 printf("%s%s\n", hello, name);
