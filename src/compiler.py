@@ -57,7 +57,7 @@ class compiler:
                 else:
                     self.actual_token.type = STRING
                     self.in_string = True
-            elif self.c.isalnum() or self.c in ["\\", ":", "%", ","]:
+            elif self.c.isalnum() or self.c in ["\\", ":", "%", ",", "_"]:
                 if self.in_string: # se está em uma string
                     self.actual_token.value = self.actual_token.value + self.c
                 else:

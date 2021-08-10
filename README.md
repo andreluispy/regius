@@ -7,7 +7,7 @@
  Code in Gnu Regius:
  ```c
 import stdio; // Standart lib for Input and Output
-print("Hello World"); // A function of stdio to print a string in screen
+print("Hello World\n"); // A function of stdio to print a string in screen
  ```
  
  C code generated:
@@ -15,7 +15,7 @@ print("Hello World"); // A function of stdio to print a string in screen
 #include <stdio.h>
 
 int main(){
-    printf("Hello World");
+    printf("Hello World\n");
     return 0;
 }
  ```

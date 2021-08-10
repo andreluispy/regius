@@ -8,8 +8,11 @@ label printf format_str *vars begin
 printf("${format_str}$", ${vars}$);
 end
 
-label input format_str *vars begin
-scanf("${format_str}$", ${vars}$);
+label raw_input var begin
+
+char ${var}$[200];
+scanf("%s", ${var}$);
+
 end
 
 
